@@ -1,0 +1,41 @@
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Build and cache
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Generated ML artifacts and private data
+*.joblib
+*.pkl
+*.pickle
+*.parquet
+uploads/
+artifacts/
+models/
+
+# Temporary files
+*.tmp
+*.bak

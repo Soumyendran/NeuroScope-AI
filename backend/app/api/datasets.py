@@ -5,7 +5,7 @@ from uuid import uuid4
 import pandas as pd
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
-
+from backend.app.services.eda import analyze_dataset
 
 router = APIRouter(
     prefix="/api/v1/datasets",
@@ -168,3 +168,31 @@ async def get_dataset(dataset_id: str):
             for column in df.columns
         ],
     }
+
+
+@router.get("/{dataset_id}/eda")
+async def get_dataset_eda(dataset_id: str):
+    """Generate exploratory data analysis for a dataset."""
+
+    df = DATASETS.get(dataset_id)
+
+    if df is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Dataset not found. Upload the dataset again.",
+        )
+
+    try:
+        analysis = analyze_dataset(df)
+
+        return {
+            "success": True,
+            "dataset_id": dataset_id,
+            "analysis": analysis,
+        }
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"EDA analysis failed: {str(error)}",
+        )
